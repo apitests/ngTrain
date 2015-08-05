@@ -1,0 +1,31 @@
+{
+  "name": "Loft",
+  "version": "0.0.0",
+  "authors": [
+    "Дима <some.nugget@mail.ru>"
+  ],
+  "license": "MIT",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "bower",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "angular": "~1.4.3",
+    "angular-route": "~1.4.3",
+    "angular-resource": "~1.4.3",
+    "angular-sanitize": "~1.4.3",
+    "angular-animate": "~1.4.3",
+    "angular-cookies": "~1.4.3",
+    "angular-touch": "~1.4.3",
+    "angular-loader": "~1.4.3",
+    "angular-i18n": "~1.4.3",
+    "angular-bootstrap": "",
+    "bootswatch-dist": "3.3.0-darkly",
+    "angularfire": "~1.1.2",
+    "firebase": "~2.2.9"
+  }
+}
