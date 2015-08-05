@@ -1,0 +1,10 @@
+/node_modules
+/bower
+
+
+/app/assets/css
+/app/assets/js
+
+
+ngtrain.sublime-project
+ngtrain.sublime-workspace
