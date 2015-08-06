@@ -123,7 +123,7 @@ gulp.task('dev', [
 ]);
 
 gulp.task('default', [
-	'dev', // СЂР°Р·СЂР°Р±РѕС‚РєР°
-	// 'prod', // СЂР°Р±РѕС‚Р°
+	'dev', // разработка
+	// 'prod', // работа
 	'webserver',
 ]);
