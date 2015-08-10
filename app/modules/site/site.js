@@ -12,6 +12,7 @@
 	
 	// @ngInject
 	function ConfigSite($stateProvider){
+
 		$stateProvider.state( 'Site', {
 			templateUrl: '/modules/site/tpl/site.html',	
 			controller: 'SiteCtrl',

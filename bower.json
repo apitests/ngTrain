@@ -25,6 +25,7 @@
     "angular-i18n": "~1.4.3",
     "angular-bootstrap": "",
     "bootswatch-dist": "3.3.0-darkly",
-    "angularfire": "~1.1.2"
+    "angularfire": "~1.1.2",
+    "firebase": "~2.2.9"
   }
 }

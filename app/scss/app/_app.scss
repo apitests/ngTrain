@@ -1,0 +1,98 @@
+.app-header {
+	background-image: url('../../img/aheader.jpg');
+	background-position: center 0;
+	background-size: cover;
+	height: 200px;
+	position: relative;
+
+	.username-row {
+		background-color: #fff;
+		border: 1px solid $almostBlack;
+		border-left: none;
+		border-right: none;
+		height: 60px;
+		position: absolute;
+		bottom: 0;
+		width: 100%;
+
+		> * {
+			min-height: 100%;
+		}
+		> aside {
+
+		}
+		.user-avatar {
+			background-size: cover;
+			background-position: center center;
+			border: 5px solid $darkBlue;
+			height: 200px;
+			position: absolute;
+			bottom: -120px;
+			width: 200px;
+			z-index: 2;
+		}
+		.user-header {
+			color: $darkGrey;
+			line-height: 1.5;
+			margin: 1px 0 0 0;
+		}
+	}
+}
+
+/* make sidebar nav vertical */
+.app-sidebar {
+	background-color: $lightGray;
+	border-right: 1px solid $almostBlack;
+	padding-top: 80px;
+
+
+	
+	.sidebar-nav {
+		.navbar {
+			border: none;	
+
+			.navbar-collapse {
+				border: none;	
+			}
+			li a {
+				color: $almostBlack;
+			}
+		}
+	}
+
+
+	@media (min-width:768px) {
+		.sidebar-nav {
+			.navbar {
+				.navbar-collapse {
+					padding: 0;
+					max-height: none;
+				}
+				ul {
+					float: none;
+				}
+				ul:not {
+					display: block;
+				}
+				li {
+					float: none;
+					display: block;
+				}
+				li a {
+					padding-top: 12px;
+					padding-bottom: 12px;
+				}
+			}
+		}
+	}
+}
+
+.sidebar-container {
+	width: 200px;
+	margin: 0 auto;
+	position: relative;
+}
+
+.app-content {
+
+}

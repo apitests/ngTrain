@@ -4,165 +4,179 @@
 angular
 	.module('Auth', [
 		'firebase',
+		'ngCookies',
+		'NgTrain.User'
 	])
-	.service('AuthService', AuthService)
-	.directive('signInForm', signInDirective)
-
+	.factory('AuthFactory', AuthFactory)
 
 	// @ngInject
-	function AuthService( $rootScope, $firebase, $firebaseAuth, $q, FIRE_URL ) {
-		var ref = new Firebase(FIRE_URL),
-			userStorageKey = 'authUser',
-			authUser = $.jStorage.get(userStorageKey) || { status: false, data:false };
+	function AuthFactory( DBC, $state, $q, $cookies, $firebaseObject, UserFactory ) {
 
-		return {
-			createUserByEmail: function( email, password ) {
-				var deferred = $q.defer();
+		var o = {},
+			ref = DBC.getRef(),
+			usersRef = ref.child('users'),
+			$auth = DBC.get$Auth();
 
-				console.log(email)
-				if (email != undefined) {
-					ref.createUser({
-						email: email,
-						password: password
-					}, function(error){
-						if (error === null) {
-							deferred.resolve({
-								status: true,
-							});
-						} else {
-							deferred.resolve({
-								status: false,
-								error:  error,
-							});
-						}
-					})
-				} else {
-					deferred.resolve({
-						status: false,
-					});
-				}
 
-				return deferred.promise;
-			},
-			signInUserByEmail: function( email, password ) {
-				var deferred = $q.defer();
-				
-				if (email != undefined) {
-					ref.authWithPassword({
-						email: email,
-						password: password
-					}, function ( error, data ) {
-						console.log(error);
-						if ( error === null ) {
-							authUser = {
-								status: true,
-								data:   data
-							}
-							deferred.resolve(authUser);
-							$.jStorage.set( userStorageKey, authUser );
-						} else {
-							deferred.resolve({
-								status: false,
-								error: error
-							});
-						}
-					} );
-				} else {
-					deferred.resolve({
-						status: false,
-					});					
-				}
 
-				return deferred.promise;
-			},
+		function authClbkDefault(_data) {
+			var deferred = $q.defer(),
+				d = new Date();
+			
+			d.setTime(d.getTime() + 1000*60*60*24*31);
 
-	        getUserState:function(){
-	            // console.info(Date(authUser.data.expires));
-	            console.info(authUser);
-	            if(authUser.data){
-	                var data = ref.getAuth();
-	                authUser = {
-	                    status: data ? true : false,
-	                    data: (data == null) ? {} : data
-	                };
-	                $.jStorage.set(userStorageKey, authUser);
-	            }
-	            return authUser.status;
-	        },
-	        logOut: function(){
-	            $firebaseAuth(ref).$unauth();
-	            $.jStorage.deleteKey(userStorageKey);
-	            $rootScope.$userState = this.getUserState();
-	            console.info('log out');
-	        },
-	        getAuthUser: function(){
-	            return authUser.data;
-	        }
+			if (_data) {
+				console.log('Вы успешно зашли на сайт');
+				$cookies.put(
+					'authToken', 
+					_data.token,
+					{ expires: d }
+				)
+				var user = new $firebaseObject(usersRef.child(_data.uid));
+				return user.$loaded();
 
+			} else {
+				console.warn('Авторизация не удалась');
+				deferred.resolve({
+					status: false
+				});
+			}
+		}
+
+		function authErrorClbkDefault(_data) {
+			var deferred = $q.defer();
+			console.warn(_data);
+			deferred.resolve({
+				status: false
+			});
+			return deferred.promise;
+		}
+
+		function authClbkDefault2(_data) {
+			var deferred = $q.defer();
+			console.log(_data);
+
+			if ((typeof _data.status) != undefined) {
+				console.info('login clbk 2');
+				UserFactory.user = _data;
+				$state.transitionTo('App.Calendar');
+
+			} else {
+
+				deferred.resolve({
+					status: false,
+					data: _data
+				});
+
+			}
+		}
+		function authErrorClbkDefault2(_data) {
 
 		}
-	}
 
 
-	// @ngInject
-	function signInDirective( $rootScope, AuthService, $state ){
-	    return{
-	        restrict: 'A',
-	        templateUrl: 'modules/auth/auth.html',
-	        link: function($scope, $element, attrs, controller){
-	            $scope.userEmail = 'amigoodesa@mail.ru';
-	            // $scope.userPassword = '1111';
-	            // $scope.userState = AuthService.getUserState();
-				// $scope.userEmail = '';
-				$scope.userPassword = '';
-	            $scope.signInUserByEmail = function(){
-	                AuthService.signInUserByEmail($scope.userEmail, $scope.userPassword)
-	                .then(function(response){
-	                	console.log(response);
-	                    $scope.userState = AuthService.getUserState();
-						if($scope.userState) {
-	                        $state.transitionTo('Site.About');
+		/* 
+		obj _user = { username: 'string', password: 'string'}
+		function _authClbk
+		*/
+		o.login = function(_user, _authClbk) {
+			
+			return $auth
+				.$authWithPassword({
+					email: _user.email,
+					password: _user.password
+				})
+				.then(authClbkDefault, authErrorClbkDefault)
+				.then(authClbkDefault2, authErrorClbkDefault2);
+
+		} /* o.login */
+
+		o.logout = function() {
+			console.log('Log out');
+			$cookies.remove( 'authToken' );
+			ref.unauth();
+		} /* o.logout */
+
+		o.authByCookieToken = function() {
+			var t = $cookies.get( 'authToken' ),
+				userData = {};
+
+			return $auth
+					.$authWithCustomToken(t)
+					.then(function(authData) { 
+						if (authData) {
+							var user = new $firebaseObject(usersRef.child(authData.uid));
+							return user.$loaded();
 						}
-						else {
-							console.log($element);
-							$($element).find('.alert').show();
-						}
-	                });
-	            };
-	            $scope.createUserByEmail = function(){
-	                AuthService.createUserByEmail($scope.userEmail, $scope.userPassword)
-	                .then(function(response){
-	                	console.log(response);
-	                })
-	                .then(function(response){
-	                	AuthService.signInUserByEmail( $scope.userEmail, $scope.userPassword )
-	                		.then(function(response){
-	                			$scope.userState = AuthService.getUserState();
-			                    console.log($scope.userState);
-			                    if($scope.userState) {
-			                        $state.transitionTo('Site.Blog');
-			                    } else {
-									$($element).find('.alert').show();
-			                    }
-	                		});
-	                });
-	            };
-	            $scope.logOut = function(){
-	            	AuthService.logOut();
-	            }
+					});
+		}
 
 
-				$($element).find('input').bind('focus', hideAlert );
-				
-				function hideAlert() {
-					$($element).find('.alert').hide();					
-				}
+		/* 
+		obj _user = { username: 'string', password: 'string'}
+		function _registerClbk
+		*/
+		o.register = function(_user, _registerClbk) {
+			var deferred = $q.defer(),
+				d = new Date();		
+			d.setTime(d.getTime() + 1000*60*60*24*31);;
+			
+			$auth
+				.$createUser({
+					email: _user.email, 
+					password: _user.password 
+				})
+				.then(function(userData){
+					console.log("Пользователь " + userData.uid + " создан.");
+					var userRef = usersRef.child(userData.uid);
+					userRef.set({
+						birth: 0,
+						email: _user.email,
+						name: '',
+						reg_date: Firebase.ServerValue.TIMESTAMP, 
+						gender: 1,
+					});
 
-	            return $scope.$on('$destroy', function() {
-					$($element).find('input').unbind('focus', hideAlert);
+					return $auth.$authWithPassword({
+						email: _user.email, 
+						password: _user.password 
+					})
+				})
+				.then(function(response){
+					console.log(response);
+					$cookies.put(
+						'authToken', 
+						response.token,
+						{ expires: d }
+					);
+					$state.transitionTo('App.Calendar');
+				}, function(response){
+					console.warn(response);
+					deferred.resolve({
+						status: false,
+						email: _user.email, 
+						password: _user.password 
+					});
 				});
-	        }
-	    };
+
+				return deferred.promise;
+		} /* o.register */ 
+
+		o.setByCookieToken = function() {
+			var userData = o.authByCookieToken()
+					.then(function(_data){
+						console.log(_data);
+						if(_data){
+							UserFactory.user = _data;
+						}					
+					});
+			return userData;
+		}
+
+
+
+
+		return o;
 	}
 
 

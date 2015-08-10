@@ -1,11 +1,17 @@
-@import 'site/creative';
-
 $almostBlack: #222;
 $darkGrey: #303030;
 
 $blue: #375A7F;
 $darkBlue: #28415b;
 
+$lightGray: #EEE;
+
+@import 'site/creative';
+@import 'app/app';
+
+* {
+	line-height: 1.5;
+}
 body {
 	background: #FFF;
 }
@@ -16,7 +22,10 @@ button, a, .btn:focus,
 .btn.active.focus {
 	outline: none;
 }
-
+.row {
+	margin-left: 0;
+	margin-right: 0;
+}
 .search-form {
 	margin: 30px 0;
 }

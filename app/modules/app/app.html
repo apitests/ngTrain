@@ -1,0 +1,24 @@
+<header class="app-header">
+	<div class="row">
+	</div>
+	<div class="row username-row">
+		<aside class="col-sm-3">
+			<div class="sidebar-container">
+				<div 
+					class="user-avatar" 
+					style="background-image: url('img/bruss.jpg')">				
+				</div>
+			</div>
+		</aside>		
+		<div class="col-sm-9">
+			<h1 class="user-header">
+				{{ user.name }}
+			</h1>
+		</div>
+	</div>
+</header>
+
+<div class="row" equal-heights> 
+	<aside class="col-sm-3 app-sidebar" ui-view="sidebar"></aside>
+	<div class="col-sm-9 app-content" ui-view="content"></div>
+</div>

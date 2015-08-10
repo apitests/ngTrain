@@ -3,18 +3,18 @@
 <div class="col-md-offset-3 col-md-6 col-xs-12">
 	
 	<form class="form-horizontal">
-		<div class="form-group">
+		<div class="form-group email-form-group">
 			<label for="inputEmail3" class="col-sm-2 control-label">Email</label>
 			<div class="col-sm-10">
 				<input
-				type="email"
+				type="text"	
 				ng-model="userEmail"
 				class="form-control"
 				id="inputEmail3"
 				placeholder="Email">
 			</div>
 		</div>
-		<div class="form-group">
+		<div class="form-group password-form-group">
 			<label for="inputPassword3" class="col-sm-2 control-label">Password</label>
 			<div class="col-sm-10">
 				<input
@@ -43,7 +43,10 @@
 		</div>
 		<div class="form-group">
 			<div class="col-sm-offset-2 col-sm-10">
-				<section class='alert alert-danger alert-dismissible'>
+				<section class='alert alert-danger alert-dismissible' id="email-in-use">
+					Данный email уже используется
+				</section>
+				<section class='alert alert-danger alert-dismissible' id="wrong-data">
 					Вы ввели неверный логин или пароль
 				</section>
 			</div>

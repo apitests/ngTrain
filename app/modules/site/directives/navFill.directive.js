@@ -23,7 +23,6 @@
 			},
 			link: function($scope, $element, $attributes, controller) {
 				controller.colorHandle();
-				console.log($scope);
 				$(window).bind('scroll', controller.colorHandle);
 				return $scope.$on('$destroy', function() {
 					$(window).unbind('scroll', controller.colorHandle);

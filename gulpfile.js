@@ -32,6 +32,7 @@ gulp.task('pjs', function(){
 	])
 	.pipe(concat('app.js'))
 	.pipe(uglify())
+	.pipe(ngAnnotate())
 	.pipe(gulp.dest('app/assets/js'));
 
 });
@@ -56,6 +57,7 @@ gulp.task('js', function(){
 		'bower/angular-ui-router/release/angular-ui-router.js',
 		'bower/angular-bootstrap/ui-bootstrap.js',
 		'bower/angular-bootstrap/ui-bootstrap-tpls.js',
+		'bower/angular-cookies/angular-cookies.js',
 		'bower/firebase/firebase.js',		
 		'bower/angularfire/dist/angularfire.js',
 		'bower/jquery/dist/jquery.js',
@@ -122,7 +124,7 @@ gulp.task('dev', [
 ]);
 
 gulp.task('default', [
-	'dev', // СЂР°Р·СЂР°Р±РѕС‚РєР°
-	// 'prod', // СЂР°Р±РѕС‚Р°
+	'dev', // разработка
+	// 'prod', // работа
 	'webserver',
 ]);
