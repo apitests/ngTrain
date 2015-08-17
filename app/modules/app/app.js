@@ -5,10 +5,15 @@ angular
 		.module('NgTrain.App', [
 			'ui.router',
 			'NgTrain.App.Calendar',
-			'NgTrain.App.Settings'
+			'NgTrain.App.Settings',
+			'NgTrain.App.Antro',
+			'NgTrain.App.Statistics',
+			'NgTrain.App.Exercises',
+			'NgTrain.App.Templates',
 		])
 		.run(RunApp)
 		.config( ConfigApp )
+		.constant('APP_SM_WIDTH', 768)
 		.controller('AppCtrl', AppController)
 	
 	// @ngInject
@@ -16,7 +21,7 @@ angular
 		$stateProvider.state( 'App', {
 			templateUrl: '/modules/app/app.html',	
 			controller: 'AppCtrl',
-			controllerAs: 'ac', // site controller
+			controllerAs: 'apc', // site controller
 		})
 	}
 
@@ -25,7 +30,6 @@ angular
 		$rootScope.user = UserFactory.getUser();
 		var s = this;
 		return s;
-
 	}
 
 	function RunApp(){

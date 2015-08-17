@@ -10,7 +10,7 @@ angular
 
 		.run(RunSettings)
 		.config( ConfigSettings )
-		.controller('SettingsCtrl', SettingsController)
+		.controller( 'SettingsCtrl', SettingsController )
 	
 	// @ngInject
 	function ConfigSettings($stateProvider){
@@ -25,15 +25,13 @@ angular
 				}
 			},
 			controller: 'SettingsCtrl',
-			controllerAs: 'cc', // site controller
+			controllerAs: 'sc', // Settings controller
 		})
 	}
 
 	// @ngInject
-	function SettingsController($rootScope, $state){
-		// $state.transitionTo('Settings.Home');
-		var s = this;
-		s.name = 'Settings';
+	function SettingsController(){
+		this.lol = 'lol';
 	}
 
 	function RunSettings(){

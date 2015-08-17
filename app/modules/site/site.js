@@ -38,9 +38,6 @@
 
 	// @ngInject
 	function SiteController($rootScope, $state){
-		// $state.transitionTo('Site.Home');
-		var s = this;
-		s.name = 'Site';
 	}
 
 	function RunSite(){

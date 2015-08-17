@@ -4,12 +4,12 @@
 	angular
 		.module('NgTrain', [
 			'ui.router',
-			'NgTrain.Site',
 			'NgTrain.App',
 			'NgTrain.Firebase',
+			'NgTrain.Site',
+			'NgTrain.User',
 			'ui.bootstrap',
 			'Auth',
-			'NgTrain.User',
 		])
 		.constant('FIRE_URL', 'https://ngtrain.firebaseio.com/')
 		.config(ConfigNgTrain)
@@ -22,11 +22,8 @@
 
 	// @ngInject
 	function RunNgTrain(UserFactory, AuthFactory, $rootScope){
-		console.log('RunNgTrain');
-		console.log($rootScope);
-		AuthFactory.setByCookieToken().then(function(){
+		UserFactory.setUserByCookieToken().then(function(){
 			$rootScope.user = UserFactory.getUser();
-			console.log($rootScope.user);
 		});
 
 	}

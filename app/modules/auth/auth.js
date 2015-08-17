@@ -5,12 +5,11 @@ angular
 	.module('Auth', [
 		'firebase',
 		'ngCookies',
-		'NgTrain.User'
 	])
 	.factory('AuthFactory', AuthFactory)
 
 	// @ngInject
-	function AuthFactory( DBC, $state, $q, $cookies, $firebaseObject, UserFactory ) {
+	function AuthFactory( DBC, $state, $q, $cookies, $firebaseObject ) {
 
 		var o = {},
 			ref = DBC.getRef(),
@@ -26,7 +25,7 @@ angular
 			d.setTime(d.getTime() + 1000*60*60*24*31);
 
 			if (_data) {
-				console.log('Вы успешно зашли на сайт');
+				console.info('Вы успешно зашли на сайт');
 				$cookies.put(
 					'authToken', 
 					_data.token,
@@ -57,8 +56,6 @@ angular
 			console.log(_data);
 
 			if ((typeof _data.status) != undefined) {
-				console.info('login clbk 2');
-				UserFactory.user = _data;
 				$state.transitionTo('App.Calendar');
 
 			} else {
@@ -96,21 +93,6 @@ angular
 			$cookies.remove( 'authToken' );
 			ref.unauth();
 		} /* o.logout */
-
-		o.authByCookieToken = function() {
-			var t = $cookies.get( 'authToken' ),
-				userData = {};
-
-			return $auth
-					.$authWithCustomToken(t)
-					.then(function(authData) { 
-						if (authData) {
-							var user = new $firebaseObject(usersRef.child(authData.uid));
-							return user.$loaded();
-						}
-					});
-		}
-
 
 		/* 
 		obj _user = { username: 'string', password: 'string'}
@@ -162,18 +144,20 @@ angular
 				return deferred.promise;
 		} /* o.register */ 
 
-		o.setByCookieToken = function() {
-			var userData = o.authByCookieToken()
-					.then(function(_data){
-						console.log(_data);
-						if(_data){
-							UserFactory.user = _data;
-						}					
-					});
-			return userData;
-		}
 
+	o.authByCookieToken = function() {
+		var t = $cookies.get( 'authToken' ),
+			userData = {};
 
+		return $auth
+				.$authWithCustomToken(t)
+				.then(function(authData) { 
+					if (authData) {
+						var user = new $firebaseObject(usersRef.child(authData.uid));
+						return user.$loaded();
+					}
+				});
+	}
 
 
 		return o;
