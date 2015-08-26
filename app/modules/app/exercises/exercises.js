@@ -1,11 +1,10 @@
 ;(function(){
-
 'use strict';
-
 
 angular
 		.module('NgTrain.App.Exercises', [
 			'ui.router',
+			'NgTrain.Exercise'
 		])
 
 		.run(RunExercises)
@@ -15,7 +14,7 @@ angular
 	// @ngInject
 	function ConfigExercises($stateProvider){
 		$stateProvider.state( 'App.Exercises', {
-			url: '/app/ex',
+			url: '/app/myexes',
 			views: {
 				'sidebar' : {
 					templateUrl: '/modules/app/tpl/sidebar.html',	
@@ -25,16 +24,18 @@ angular
 				}
 			},
 			controller: 'ExercisesCtrl',
-			controllerAs: 'ec', // site controller
+			controllerAs: 'ec', // exercices controller
 		})
 	}
 
 	// @ngInject
-	function ExercisesController($rootScope, $state){
-		// $state.transitionTo('Exercises.Home');
+	function ExercisesController($rootScope, ExerciseFactory){
 		var s = this;
-		s.name = 'Exercises';
+		s.ex = ExerciseFactory;
+		s.ex.loadUserExercises();
+		console.log(11111);
 	}
+
 
 	function RunExercises(){
 	}

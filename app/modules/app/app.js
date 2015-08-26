@@ -5,9 +5,11 @@ angular
 		.module('NgTrain.App', [
 			'ui.router',
 			'NgTrain.App.Calendar',
+			'NgTrain.Category',
 			'NgTrain.App.Settings',
 			'NgTrain.App.Antro',
 			'NgTrain.App.Statistics',
+			'NgTrain.App.Exercise',
 			'NgTrain.App.Exercises',
 			'NgTrain.App.Templates',
 		])

@@ -21,7 +21,7 @@ angular
 					templateUrl: '/modules/app/tpl/sidebar.html',	
 				}, 
 				'content' : {
-					templateUrl: '/modules/app/statistics/Statistics.html',
+					templateUrl: '/modules/app/statistics/statistics.html',
 				}
 			},
 			controller: 'StatisticsCtrl',

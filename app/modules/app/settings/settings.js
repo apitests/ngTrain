@@ -2,7 +2,6 @@
 
 'use strict';
 
-
 angular
 		.module('NgTrain.App.Settings', [
 			'ui.router',
@@ -31,7 +30,6 @@ angular
 
 	// @ngInject
 	function SettingsController(){
-		this.lol = 'lol';
 	}
 
 	function RunSettings(){

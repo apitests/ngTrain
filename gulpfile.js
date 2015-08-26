@@ -94,6 +94,7 @@ gulp.task('css', function() {
 
 gulp.task('watch', function(){
 	gulp.watch('app/js/**/*.js', ['js']);
+	gulp.watch('bower/angular-ui-router/*.js', ['js']);
 	gulp.watch('app/modules/**/*.js', ['js']);
 	gulp.watch('app/scss/**/*.scss', ['css']);
 	// gulp.watch('app/**/*.html', ['html']);

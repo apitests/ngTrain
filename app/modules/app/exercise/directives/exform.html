@@ -1,0 +1,61 @@
+	<div class="row">
+		<input type="hidden" ng-model="exfc.ex.key">
+		<div class="col-sm-5">
+			<div class="form-group">
+				<label for="name">Название</label>
+				<input
+					type="text"
+					class="form-control"
+					name="name"
+					id="name"
+					ng-model="exfc.ex.name"
+					ng-change="exfc.change()"
+					placeholder="Название"
+					required>
+			</div>
+		</div>
+	</div>	
+	
+	<div class="row">
+		<div class="col-sm-5">
+			<div class="form-group">
+				<label for="category">Категория</label>
+				<select
+					name="category"
+					id="category"
+					class="form-control"
+					ng-model="exfc.ex.category"
+					ng-options="cat.index as cat.header for cat in exfc.CategoryFactory.formCategories"
+					ng-change="exfc.change()">
+					<option>---</option>
+				</select>
+				<!-- <pre>
+					{{ exfc | json }}
+				</pre> -->
+			</div>
+		</div>
+	</div>
+	<div class="row">
+		<div class="col-sm-5">
+			<div class="form-group">
+				<label class="radio-inline">
+					<input 
+						type="radio" 
+						ng-model="exfc.ex.is_base" 
+						ng-change="exfc.change()"
+						name="gender" 
+						value="1">
+					Базовое
+				</label>
+				<label class="radio-inline">
+					<input 
+						type="radio" 
+						ng-model="exfc.ex.is_base"
+						ng-change="exfc.change()"
+						name="gender" 
+						value="0">
+					Изолированное
+				</label>
+			</div>
+		</div>
+	</div>

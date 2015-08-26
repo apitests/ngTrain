@@ -22,7 +22,6 @@ function UserFactory( DBC, $cookies, $firebaseObject, AuthFactory, hlpDate, $q )
 			'biceps', 'forearm', 'neck', 'hip', 
 			'buttocks', 'calves' 
 		],
-		$auth	= DBC.get$Auth(),
 		ref		= DBC.getRef(),
 		usersRef = ref.child('users'),
 		antroRef = ref.child('anthropometry');

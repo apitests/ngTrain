@@ -26,8 +26,6 @@ angular
 				}
 
 				function inputChange() {
-					af = $scope['antroForm'];
-					console.log(UserFactory.antro);
 					UserFactory.updateAntro();
 				}
 			},

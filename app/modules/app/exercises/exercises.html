@@ -1,1 +1,13 @@
+<div ng-controller="ExercisesCtrl as ec">
 <h1>Мои упражнения</h1>
+
+<div class="exercises-block">
+	<div ng-repeat="(key, uex) in ec.ex.user_exercises" class="exercise-block">
+		<a ui-sref="App.Exercise({ exid: uex.key })">
+			{{ uex.name }}
+		</a>
+		<p class="category">{{ uex.category }}</p>
+	</div>
+</div>
+
+</div>
